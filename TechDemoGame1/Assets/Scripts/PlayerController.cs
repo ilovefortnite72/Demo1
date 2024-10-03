@@ -6,11 +6,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+
     private Rigidbody2D rb;
     private float movespeed = 10;
     private float xAxis;
     private float JumpForce = 10;
 
+    [Header("Ground Check")]
     private bool isGrounded;
     [SerializeField]
     public Transform groundCheck;
@@ -18,11 +20,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsGround;
 
 
-    private float JetPackFuel = 100;
-    private float JetPackFuelBurnRate = 10;
-    private float JetPackFuelRegenRate = 5;
-    private bool isJetPackActive = false;
-    private float JetPackForce = 10;
+    [Header("JetPack")]
+
+    [SerializeField] private float JetPackFuel = 100;
+    [SerializeField] private float JetPackFuelBurnRate = 10;
+    [SerializeField] private float JetPackFuelRegenRate = 5;
+    [SerializeField] private bool isJetPackActive = false;
+    [SerializeField] private float JetPackForce = 10;
 
     public ParticleSystem jetPackParticles;
 
@@ -30,7 +34,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();    
+        rb = GetComponent<Rigidbody2D>();   
+        
         
     }
 
@@ -42,7 +47,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         JetPack();
-        print(JetPackFuel);
+        
 
     }
 
