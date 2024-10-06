@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638634833700000000
-    m_Hash: 1430670257
+      ticks: 638636607855065415
+    m_Hash: 1744390619
   m_LockFileStatus:
     m_FilePath: C:/Users/dangu/Documents/GitKraken/Demo1/TechDemoGame1/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638634833700000000
-    m_Hash: 3651413815
+      ticks: 638636607855148012
+    m_Hash: 45981380
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
