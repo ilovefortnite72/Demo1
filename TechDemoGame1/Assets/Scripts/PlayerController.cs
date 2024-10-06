@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    public Animator animator;
+
 
     private Rigidbody2D rb;
     private float movespeed = 10;
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         JetPack();
+        IsGrounded();
         
 
     }
@@ -60,30 +63,43 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         rb.velocity = new Vector2(xAxis * movespeed, rb.velocity.y);
+
+        animator.SetFloat("Speed", Mathf.Abs(xAxis));
+        if (xAxis < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (xAxis > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
   
     }
 
-    public bool IsGrounded()
+    public void OnLand()
     {
-        if (Physics2D.Raycast(groundCheck.position, Vector2.down, checkDistance, whatIsGround))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        animator.SetBool("IsJumping", false);
+    }
+
+
+
+    public void IsGrounded()
+    {
+        
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkDistance, whatIsGround);
     }
 
     public void Jump()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
 
             rb.velocity = new Vector2(rb.velocity.x, JumpForce);
-            print("Jump");
+            animator.SetBool("IsJumping", true);
+            isGrounded = false;
             
         }
+        
     }
 
     public void JetPack()
