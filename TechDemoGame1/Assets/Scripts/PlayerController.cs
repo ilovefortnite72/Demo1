@@ -15,9 +15,8 @@ public class PlayerController : MonoBehaviour
     private float JumpForce = 10;
 
     [Header("Ground Check")]
-    private bool isGrounded;
-    [SerializeField]
-    public Transform groundCheck;
+    private bool isGrounded = false;
+    public Transform player;
     public float checkDistance = 0.2f;
     public LayerMask whatIsGround;
 
@@ -49,6 +48,8 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         JetPack();
+        
+        
         IsGrounded();
         
 
@@ -86,7 +87,8 @@ public class PlayerController : MonoBehaviour
     public void IsGrounded()
     {
         
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkDistance, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(player.position, checkDistance, whatIsGround);
+        Debug.Log("isGrounded");
     }
 
     public void Jump()
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
         
             isJetPackActive = true;
             JetPackFuel -= JetPackFuelBurnRate * Time.deltaTime;
-            rb.velocity = new Vector2(rb.velocity.x, JetPackForce);
+            rb.AddForce(rb.transform.up * JetPackForce, ForceMode2D.Impulse);
             jetPackParticles.Play();
         
         }
@@ -129,6 +131,11 @@ public class PlayerController : MonoBehaviour
         if (JetPackFuel < 100 && !isJetPackActive)
         {
             JetPackFuel += JetPackFuelRegenRate * Time.deltaTime;
+        }
+
+        if (JetPackFuel > 100)
+        {
+            JetPackFuel = 100;
         }
     }
 }

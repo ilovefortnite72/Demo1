@@ -30,7 +30,7 @@ public class PlatformController : MonoBehaviour
 
     private void Move()
     {
-        Debug.Log("Moving");
+        
         //move platform to target local position
         transform.position = Vector3.MoveTowards(transform.position, endPosition, speed * Time.deltaTime);
         if (transform.position == endPosition)
