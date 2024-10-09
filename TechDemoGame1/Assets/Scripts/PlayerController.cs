@@ -12,12 +12,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private float movespeed = 10;
     private float xAxis;
+    [SerializeField]
     private float JumpForce = 10;
 
     [Header("Ground Check")]
     private bool isGrounded = false;
     public Transform player;
-    public float checkDistance = 0.2f;
+    public float checkDistance = 2f;
     public LayerMask whatIsGround;
 
 
@@ -43,15 +44,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         InputControls();
         Move();
+        IsGrounded();
         Jump();
         JetPack();
-        
-        
-        IsGrounded();
-        
 
     }
 
@@ -64,7 +62,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         rb.velocity = new Vector2(xAxis * movespeed, rb.velocity.y);
-
+        //change animation direction based on movement
         animator.SetFloat("Speed", Mathf.Abs(xAxis));
         if (xAxis < 0)
         {
@@ -83,19 +81,23 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
+    //check if player is grounded
     public void IsGrounded()
     {
         
         isGrounded = Physics2D.OverlapCircle(player.position, checkDistance, whatIsGround);
-        Debug.Log("isGrounded");
+        //if (isGrounded)
+        //{
+        //    Debug.Log("isGrounded");
+        //}
+        
     }
 
     public void Jump()
     {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-
+            //add jump force, and change variables around for animation
             rb.velocity = new Vector2(rb.velocity.x, JumpForce);
             animator.SetBool("IsJumping", true);
             isGrounded = false;
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
     public void JetPack()
     {
-
+        //check if player is holding jump button and jetpack fuel is more than 0 and player is not grounded
         if (Input.GetButton("Jump") && JetPackFuel > 0 && !isGrounded)
         {
         
@@ -118,21 +120,21 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-
+            //return to normal state
             isJetPackActive = false;
             jetPackParticles.Stop();
         }
-
+        //ensure jetpack cant go below 0
         if (JetPackFuel <= 0)
         {
             JetPackFuel = 0;
         }
-
+        //regerentaing jetpack fuel
         if (JetPackFuel < 100 && !isJetPackActive)
         {
             JetPackFuel += JetPackFuelRegenRate * Time.deltaTime;
         }
-
+        //ensure jetpack fuel cant go above 100
         if (JetPackFuel > 100)
         {
             JetPackFuel = 100;
