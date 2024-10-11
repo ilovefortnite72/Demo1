@@ -75,6 +75,8 @@ public class PlayerController : MonoBehaviour
   
     }
 
+    
+
     public void OnLand()
     {
         animator.SetBool("IsJumping", false);
@@ -91,6 +93,12 @@ public class PlayerController : MonoBehaviour
         //    Debug.Log("isGrounded");
         //}
         
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(player.position, checkDistance);
     }
 
     public void Jump()
