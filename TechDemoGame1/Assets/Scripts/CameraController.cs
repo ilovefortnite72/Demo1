@@ -5,25 +5,29 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-
-    public Transform PlayerPos;
-    public Vector3 offset;
-    public float CameraPos;
-    public float CameraSpeed = 100f;
-
-    bool bounds;
-    public Vector3 MinCameraPos;
-    public Vector3 MaxCameraPos;
+    public Transform player;
+    private Camera cam;
+    private Vector2 Vector2;
 
 
-    void Start()
+    private void Start()
     {
+        cam = GetComponent<Camera>();
         
+
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    private void LateUpdate()
     {
-            
+        Vector3 playerViewportPosition = cam.WorldToViewportPoint(player.position);
+        if (playerViewportPosition.x <0 || playerViewportPosition.x > 1 || playerViewportPosition.y < 0 || playerViewportPosition.y > 1)
+        {
+            Vector3 newCameraPosition = new Vector3(player.position.x, player.position.y, transform.position.z);
+            transform.position = newCameraPosition;
+        }
     }
+
+
+
 }
