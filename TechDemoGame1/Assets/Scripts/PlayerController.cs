@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
 
     public Animator animator;
+    public GameController gameController;
 
 
     private Rigidbody2D rb;
@@ -14,6 +16,12 @@ public class PlayerController : MonoBehaviour
     private float xAxis;
     [SerializeField]
     private float JumpForce = 10;
+
+    [Header("Health")]
+    public int maxHealth = 5;
+    public int currentHealth;
+    public Image[] healthImages;
+    public Sprite[] healthSprites;
 
     [Header("Ground Check")]
     private bool isGrounded = false;
@@ -37,6 +45,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();   
+        currentHealth = maxHealth;
+        checkHealthAmount();
         
         
     }
@@ -88,6 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         
         isGrounded = Physics2D.OverlapCircle(player.position, checkDistance, whatIsGround);
+        animator.SetBool("IsJumping", false);
         //if (isGrounded)
         //{
         //    Debug.Log("isGrounded");
@@ -112,6 +123,42 @@ public class PlayerController : MonoBehaviour
             
         }
         
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("Hit Obstacle");
+            transform.position = gameController.Checkpointpos;
+            TakeDamage(5);
+        }
+    }
+
+    void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
+        {
+            gameController.Die();
+        }
+    }
+
+
+    void checkHealthAmount()
+    {
+        for (int i = 0; i < maxHealth; i++)
+        {
+            if (currentHealth == i)
+            {
+                healthImages[i].enabled = false;
+            }
+            else
+            {
+                healthImages[i].enabled = true;
+            }
+        }
     }
 
     public void JetPack()

@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public Rigidbody2D rb;
 
+    public Animator animator;
+
 
     private void Start()
     {
@@ -38,5 +40,7 @@ public class GameController : MonoBehaviour
     public void Die()
     {
         player.transform.position = Checkpointpos;
+        animator.SetBool("isDead", true);
+        Debug.Log("You died");
     }
 }

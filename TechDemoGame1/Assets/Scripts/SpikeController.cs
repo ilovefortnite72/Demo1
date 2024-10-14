@@ -12,14 +12,9 @@ public class SpikeController : MonoBehaviour
     {
         spikecollidor = GetComponent<Collider2D>();
         gameController = GetComponent<GameController>();
+        player = GameObject.Find("Player");
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == player)
-        {
-            gameController.Die();
-        }
-    }
+
 }

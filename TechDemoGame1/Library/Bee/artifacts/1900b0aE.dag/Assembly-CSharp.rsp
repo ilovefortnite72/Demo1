@@ -388,6 +388,7 @@
 "Assets/Scripts/CameraController.cs"
 "Assets/Scripts/FallingPlatform.cs"
 "Assets/Scripts/GameController.cs"
+"Assets/Scripts/LadderMovement.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/PlatformController.cs"
 "Assets/Scripts/PlayerController.cs"
