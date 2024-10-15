@@ -468,7 +468,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
+  m_SurfaceArc: 60
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -484,9 +484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22e5f12a74da00478a3a2609fc35648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallDelay: 1
+  fallDelay: 2.5
   rb: {fileID: 293538753195026752}
-  DespawnDelay: 0.75
+  DespawnDelay: 1
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64

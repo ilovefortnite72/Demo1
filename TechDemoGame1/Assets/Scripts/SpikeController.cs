@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class SpikeController : MonoBehaviour
 {
-    public GameObject player;
-    public Collider2D spikecollidor;
     public GameController gameController;
+    public PlayerController playerController;
 
-    private void Start()
+
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        spikecollidor = GetComponent<Collider2D>();
-        gameController = GetComponent<GameController>();
-        player = GameObject.Find("Player");
-
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Hit Obstacle");
+            transform.position = gameController.Checkpointpos;
+            collision.gameObject.GetComponent<PlayerController>().TakeDamage(5);
+        }
     }
 
 

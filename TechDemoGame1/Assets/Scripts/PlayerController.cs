@@ -48,7 +48,15 @@ public class PlayerController : MonoBehaviour
         currentHealth = maxHealth;
         checkHealthAmount();
         
-        
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    { 
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("Hit Obstacle");
+            TakeDamage(5);
+        }
     }
 
     // Update is called once per frame
@@ -66,7 +74,6 @@ public class PlayerController : MonoBehaviour
     private void InputControls()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
-
     }
 
     private void Move()
@@ -84,8 +91,6 @@ public class PlayerController : MonoBehaviour
         }
   
     }
-
-    
 
     public void OnLand()
     {
@@ -120,23 +125,14 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, JumpForce);
             animator.SetBool("IsJumping", true);
             isGrounded = false;
-            
-        }
-        
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Obstacle"))
-        {
-            Debug.Log("Hit Obstacle");
-            transform.position = gameController.Checkpointpos;
-            TakeDamage(5);
         }
     }
 
-    void TakeDamage(int amount)
-    {
+    
+    
+
+    public void TakeDamage(int amount)
+    { 
         currentHealth -= amount;
 
         if (currentHealth <= 0)

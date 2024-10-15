@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
         Restart();
 
     }
+
+
     
 
     private void Restart()
