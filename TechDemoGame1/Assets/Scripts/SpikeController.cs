@@ -14,7 +14,7 @@ public class SpikeController : MonoBehaviour
         {
             Debug.Log("Hit Obstacle");
             transform.position = gameController.Checkpointpos;
-            collision.gameObject.GetComponent<PlayerController>().TakeDamage(5);
+
         }
     }
 

@@ -21,6 +21,8 @@ public class PlatformController : MonoBehaviour
         transform.position = new Vector2(startPosition.x, startPosition.y);
     }
 
+
+
     private void Update()
     {
 

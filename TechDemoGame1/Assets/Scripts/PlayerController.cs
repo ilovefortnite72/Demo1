@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameController gameController;
 
+    public Vector2 PlayerPos;
+    private Transform origParent;
 
     private Rigidbody2D rb;
     private float movespeed = 10;
@@ -46,16 +48,33 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();   
         currentHealth = maxHealth;
-        checkHealthAmount();
+        
         
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     { 
+
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            origParent = transform.parent;
+            transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = origParent;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Hit Obstacle");
-            TakeDamage(5);
+            gameController.Die();
         }
     }
 
@@ -130,32 +149,6 @@ public class PlayerController : MonoBehaviour
 
     
     
-
-    public void TakeDamage(int amount)
-    { 
-        currentHealth -= amount;
-
-        if (currentHealth <= 0)
-        {
-            gameController.Die();
-        }
-    }
-
-
-    void checkHealthAmount()
-    {
-        for (int i = 0; i < maxHealth; i++)
-        {
-            if (currentHealth == i)
-            {
-                healthImages[i].enabled = false;
-            }
-            else
-            {
-                healthImages[i].enabled = true;
-            }
-        }
-    }
 
     public void JetPack()
     {

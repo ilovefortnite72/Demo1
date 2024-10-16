@@ -3,63 +3,74 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BoomerangManager : MonoBehaviour
 {
-    
+    public Transform player;
     private Vector2 aimPos;
     public float speed;
     public Rigidbody2D rb;
     private Camera Cam;
-    public GameObject Brang;
-    public Transform BrangTrans;
     public bool canThrow;
-    public float timer;
-    public float returnTime;
+    private Vector2 throwDir;
+    public bool hasReturned;
     
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Cam = Camera.main;
-        
+        canThrow = true;    
+        hasReturned = false;
     }
 
     private void Update()
     {
         aimPos = Cam.ScreenToWorldPoint(Input.mousePosition);
 
-        HasReturned();
-
-        Debug.Log("AimPos: " + aimPos);
-        Debug.Log(canThrow);
-
-
         if (Input.GetMouseButtonDown(0) && canThrow)
         {
-            Throw();
+            hasReturned = false;
+            canThrow = false;
+            StartCoroutine(Throw());
+
         }
 
+        _hasReturned();
+        
         
     }
 
-    private void HasReturned()
+    private void _hasReturned()
     {
-        if (Vector2.Distance(rb.position, aimPos) < 0.5f)
+        if (Vector2.Distance(rb.position, player.position) < 0.05f)
         {
             rb.velocity = Vector2.zero;
+            hasReturned = true;
             canThrow = true;
+            
         }
+        
     }
 
-    private void Throw()
+    private IEnumerator Throw()
     {
-        Debug.Log("Throwing Boomerang");
-        canThrow = false;
-        //move boomerang to mouse position and back again after
-        Vector2 throwDir = (aimPos - rb.position).normalized;
-        rb.velocity = new Vector2(throwDir.x * speed, throwDir.y * speed);
-        BrangTrans.position = rb.position;
+        while (Vector2.Distance(rb.position, aimPos) > 0.05f)
+        {
+            transform.position = Vector2.MoveTowards(rb.position, aimPos, speed * Time.deltaTime);
+            transform.Rotate(0, 0, 10); 
+            yield return null;
+        }
 
+        hasReturned = false;
+
+        while(Vector2.Distance(rb.position, player.position) > 0.05f)
+        {
+            transform.position = Vector2.MoveTowards(rb.position, player.position, speed * Time.deltaTime);
+            transform.Rotate(0, 0, 10);
+            yield return null;
+        }
+        
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -11,7 +12,9 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public Rigidbody2D rb;
 
+
     public Animator animator;
+    public GameOverScreen GOS;
 
 
     private void Start()
@@ -25,6 +28,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         Restart();
+        
 
     }
 
@@ -39,10 +43,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+    public void GameOver()
+    {
+        GOS.Setup();
+    }
+
+
     public void Die()
     {
-        player.transform.position = Checkpointpos;
         animator.SetBool("isDead", true);
+        player.transform.position = Checkpointpos;
         Debug.Log("You died");
+
+        
     }
 }
