@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     public Vector2 Checkpointpos;
     public GameObject player;
     public Rigidbody2D rb;
+    
 
 
     public Animator animator;
