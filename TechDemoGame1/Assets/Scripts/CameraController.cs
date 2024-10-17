@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 
     public Transform player;
     private Camera cam;
-    private Vector2 Vector2;
+    
 
 
     private void Start()

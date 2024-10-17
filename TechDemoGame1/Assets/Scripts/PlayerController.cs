@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
     public GameController gameController;
+    public PauseMenu pauseMenu;
 
     public Vector2 PlayerPos;
     private Transform origParent;
@@ -81,13 +82,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        pouseMenu();
         InputControls();
         Move();
         IsGrounded();
         Jump();
         JetPack();
+        
 
+    }
+
+    private void pouseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.PauseGame();
+        }
     }
 
     private void InputControls()
@@ -118,11 +128,20 @@ public class PlayerController : MonoBehaviour
 
 
     //check if player is grounded
-    public void IsGrounded()
+    public bool IsGrounded()
     {
         
-        isGrounded = Physics2D.OverlapCircle(player.position, checkDistance, whatIsGround);
-        animator.SetBool("IsJumping", false);
+        if (isGrounded = Physics2D.OverlapCircle(player.position, checkDistance, whatIsGround))
+        {
+            animator.SetBool("IsJumping", false);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+        
         //if (isGrounded)
         //{
         //    Debug.Log("isGrounded");
@@ -138,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             //add jump force, and change variables around for animation
             rb.velocity = new Vector2(rb.velocity.x, JumpForce);
@@ -153,7 +172,7 @@ public class PlayerController : MonoBehaviour
     public void JetPack()
     {
         //check if player is holding jump button and jetpack fuel is more than 0 and player is not grounded
-        if (Input.GetButton("Jump") && JetPackFuel > 0 && !isGrounded)
+        if (Input.GetButton("Jump") && JetPackFuel > 0 && !IsGrounded())
         {
         
             isJetPackActive = true;

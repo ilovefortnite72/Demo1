@@ -392,6 +392,7 @@
 "Assets/Scripts/GameOverScreen.cs"
 "Assets/Scripts/LadderMovement.cs"
 "Assets/Scripts/MainMenu.cs"
+"Assets/Scripts/PauseMenu.cs"
 "Assets/Scripts/PlatformController.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/SpikeController.cs"
