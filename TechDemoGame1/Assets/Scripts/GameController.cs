@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour
 
     public void Die()
     {
-        animator.SetBool("isDead", true);
+        animator.SetBool("IsDead", true);
         player.transform.position = Checkpointpos;
         Debug.Log("You died");
 
