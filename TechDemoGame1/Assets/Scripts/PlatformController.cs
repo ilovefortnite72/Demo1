@@ -21,6 +21,8 @@ public class PlatformController : MonoBehaviour
         transform.position = new Vector2(startPosition.x, startPosition.y);
     }
 
+
+
     private void Update()
     {
 
@@ -30,7 +32,7 @@ public class PlatformController : MonoBehaviour
 
     private void Move()
     {
-        Debug.Log("Moving");
+        
         //move platform to target local position
         transform.position = Vector3.MoveTowards(transform.position, endPosition, speed * Time.deltaTime);
         if (transform.position == endPosition)

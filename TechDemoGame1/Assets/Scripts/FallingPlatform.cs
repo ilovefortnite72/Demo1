@@ -7,9 +7,9 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
     public float fallDelay = 1;
-    public Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
     public float DespawnDelay = 0.75f;
-    public float checkDistance = 1f;
+    
     public LayerMask whatIsPlayer;
 
     private void Awake()
@@ -18,27 +18,22 @@ public class FallingPlatform : MonoBehaviour
 
     }
 
-    private IEnumerable WaitForSecondsRealtime(float fallDelay)
-    {
-        yield return new WaitForSecondsRealtime(fallDelay);
-        Fall();
-    }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            WaitForSecondsRealtime(fallDelay);
-            
+            StartCoroutine(Fall());
         }
     }
 
-
-    private void Fall()
+    private IEnumerator Fall()
     {
-        rb.simulated = true;
+        yield return new WaitForSecondsRealtime(fallDelay);
+        rb.bodyType = RigidbodyType2D.Dynamic;
         Destroy(gameObject, DespawnDelay);
-        
+
     }
+
+    
+
 }
