@@ -10,7 +10,7 @@ public class GameOverScreen : MonoBehaviour
     public void Restart()
     {
         gameObject.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
     }
 
 

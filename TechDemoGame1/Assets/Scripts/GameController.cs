@@ -56,6 +56,14 @@ public class GameController : MonoBehaviour
         animator.SetBool("IsDead", true);
         player.transform.position = Checkpointpos;
         Debug.Log("You died");
+        GOS.Setup();
+
+        if (Vector2.Distance(player.transform.position, Checkpointpos)< 1)
+        {
+            
+            animator.SetBool("IsDead", false);
+            
+        }
 
         
     }

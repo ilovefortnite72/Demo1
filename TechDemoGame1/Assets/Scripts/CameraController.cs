@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 
     }
 
-    
+    //check if player is out of camera view and move camera to player position with the player being at centre of the camera
     private void LateUpdate()
     {
         Vector3 playerViewportPosition = cam.WorldToViewportPoint(player.position);

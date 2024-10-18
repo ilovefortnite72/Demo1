@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameController gameController;
     public PauseMenu pauseMenu;
+    
 
     public Vector2 PlayerPos;
     private Transform origParent;
@@ -36,11 +37,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("JetPack")]
 
-    [SerializeField] private float JetPackFuel = 100;
+    public float MaxJetPackFuel = 50;
+
+    [SerializeField] public float JetPackFuel = 50;
     [SerializeField] private float JetPackFuelBurnRate = 10;
     [SerializeField] private float JetPackFuelRegenRate = 5;
     [SerializeField] private bool isJetPackActive = false;
     [SerializeField] private float JetPackForce = 10;
+    public Slider fuelSlider;
 
     public ParticleSystem jetPackParticles;
 
@@ -52,7 +56,10 @@ public class PlayerController : MonoBehaviour
         currentHealth = maxHealth;
         
         
+        
     }
+
+    //make sure the player is parented to the moving platform and doesnt slider around on it
 
     public void OnCollisionEnter2D(Collision2D collision)
     { 
@@ -64,6 +71,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //removes player from parent when they leave the platform so they can move freely
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("MovingPlatform"))
@@ -71,6 +80,9 @@ public class PlayerController : MonoBehaviour
             transform.parent = origParent;
         }
     }
+
+    //check if player is hit by an obstacle and die if they are
+    //also check if player has reached the end of the level and load the next level
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -85,7 +97,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         pouseMenu();
@@ -94,9 +106,13 @@ public class PlayerController : MonoBehaviour
         IsGrounded();
         Jump();
         JetPack();
+        fuelSlider.value = MaxJetPackFuel / JetPackFuel;
+        fuelSliderUpdate();
         
 
     }
+
+    //display pause menu (bad variable name as it was causing conflicts)
 
     private void pouseMenu()
     {
@@ -105,12 +121,16 @@ public class PlayerController : MonoBehaviour
             pauseMenu.PauseGame();
         }
     }
+    
 
+    //basic movement controls
     private void InputControls()
     {
         xAxis = Input.GetAxisRaw("Horizontal");
     }
 
+
+    //move player based on input so sprite faces the correct direction
     private void Move()
     {
         rb.velocity = new Vector2(xAxis * movespeed, rb.velocity.y);
@@ -127,10 +147,13 @@ public class PlayerController : MonoBehaviour
   
     }
 
+    //check if player is grounded and change animation state
     public void OnLand()
     {
         animator.SetBool("IsJumping", false);
     }
+
+
 
 
     //check if player is grounded
@@ -155,12 +178,15 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    //simple debug to show the ground check radius
+
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(player.position, checkDistance);
     }
 
+    //jump function checks if player is grounded and if they are, adds jump force and changes animation state
     public void Jump()
     {
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -172,8 +198,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-    
+    //jetpack fuel slider update
+    private void fuelSliderUpdate()
+    {
+        if (fuelSlider != null)
+        {
+            fuelSlider.value = JetPackFuel;
+            
+        }
+    }
+
+
+    //jetpack function 
 
     public void JetPack()
     {
@@ -183,9 +219,11 @@ public class PlayerController : MonoBehaviour
         
             isJetPackActive = true;
             JetPackFuel -= JetPackFuelBurnRate * Time.deltaTime;
+            
             rb.AddForce(rb.transform.up * JetPackForce, ForceMode2D.Impulse);
             jetPackParticles.Play();
-        
+            fuelSliderUpdate();
+
         }
         else
         {

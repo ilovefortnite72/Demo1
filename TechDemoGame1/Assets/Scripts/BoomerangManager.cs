@@ -25,6 +25,7 @@ public class BoomerangManager : MonoBehaviour
         hasReturned = false;
     }
 
+    //get mouse position and throw boomerang towards mouse position
     private void Update()
     {
         aimPos = Cam.ScreenToWorldPoint(Input.mousePosition);
@@ -42,6 +43,7 @@ public class BoomerangManager : MonoBehaviour
         
     }
 
+    //check if boomerang has returned to player position
     private void _hasReturned()
     {
         if (Vector2.Distance(rb.position, player.position) < 0.05f)
@@ -54,6 +56,8 @@ public class BoomerangManager : MonoBehaviour
         
     }
 
+    //throw boomerang towards mouse position then return to player position even if player moves from original position
+
     private IEnumerator Throw()
     {
         while (Vector2.Distance(rb.position, aimPos) > 0.05f)
@@ -64,6 +68,7 @@ public class BoomerangManager : MonoBehaviour
         }
 
         hasReturned = false;
+        //return boomerang to player position after reaching mouse position
 
         while(Vector2.Distance(rb.position, player.position) > 0.05f)
         {

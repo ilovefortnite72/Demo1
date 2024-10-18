@@ -12,7 +12,7 @@ public class LadderMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
 
-
+    //check if player is on ladder
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,6 +22,7 @@ public class LadderMovement : MonoBehaviour
         }
     }
     
+    //check if player is off ladder
 
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -41,6 +42,8 @@ public class LadderMovement : MonoBehaviour
             isClimbing = true;
         }
     }
+
+    //movement for climbing on ladder
 
     private void FixedUpdate()
     {
